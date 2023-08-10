@@ -72,6 +72,14 @@ namespace MatriculasLaboratorio
             string nombres = lblNombres.Text;
             string grupoSeleccionado = ddlGroup.SelectedValue;
 
+            // Verificar si los campos están completos
+            if (string.IsNullOrEmpty(cui) || string.IsNullOrEmpty(apellidos) || string.IsNullOrEmpty(nombres) || string.IsNullOrEmpty(grupoSeleccionado))
+            {
+                string mensaje = "alert('Por favor, complete todos los campos antes de registrar.');";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "CamposIncompletos", mensaje, true);
+                return; // No realizar el registro y redirección
+            }
+
             // Verificar si el estudiante ya está matriculado en el grupo seleccionado
             int alumnoExistente = VerificarAlumno(nombres, apellidos);
             if (alumnoExistente > 0)
@@ -84,6 +92,8 @@ namespace MatriculasLaboratorio
             // Llamar al servicio para registrar al alumno
             Service3Client serviceClient = new Service3Client();
             serviceClient.RegistroAlumno(grupoSeleccionado, apellidos, nombres, cui);
+
+            ActualizarContadores();
 
             string contraseniaEspecifica = "admin";
             string contraseniaIngresada = "admin";
@@ -103,6 +113,17 @@ namespace MatriculasLaboratorio
 
             string redirectScript = "setTimeout(function() { window.location.href = 'WebForm6.aspx?grupo=" + grupoSeleccionado + "'; }, 1000);";
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Redireccionar", redirectScript, true);
+        }
+        private void ActualizarContadores()
+        {
+            // Obtener instancia de la página de administrador
+            WebAdministrador adminPage = Page as WebAdministrador;
+
+            if (adminPage != null)
+            {
+                // Llamar a la función para actualizar los contadores en la página del administrador
+                adminPage.ActualizarContadores();
+            }
         }
         protected void btnVerHorario(object sender, EventArgs e)
         {

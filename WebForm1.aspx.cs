@@ -16,19 +16,26 @@ namespace MatriculasLaboratorio
         protected void btnEnviar_Click(object sender, EventArgs e)
         {
             string cui = txtCUI.Text;
-            string usuario = txtUsuario.Text;
+
             string contrasenia = txtPassword.Text;
 
-            if (cui == "" || usuario == "" || contrasenia == "")
+            if (cui == "" || contrasenia == "")
             {
                 Response.Write("<script>alert('Por favor, complete todos los campos.');</script>");
             }
             else
             {
                 Session["CUI"] = cui;
-                Session["usuario"] = usuario;
+
                 Session["contrasenia"] = contrasenia;
-                Response.Redirect("WebForm2.aspx");
+                if (cui == "12345678" && contrasenia == "admin")
+                {
+                    Response.Redirect("WebAdministrador.aspx");
+                }
+                else
+                {
+                    Response.Redirect("WebForm2.aspx");
+                }
             }
         }
     }

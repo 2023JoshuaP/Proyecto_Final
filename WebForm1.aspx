@@ -120,10 +120,7 @@
                 <label>CUI:</label>
                 <asp:TextBox ID="txtCUI" runat="server" onkeypress="validar_numeros(event);"></asp:TextBox>
             </div>
-            <div>
-                <label>Usuario:</label>
-                <asp:TextBox ID="txtUsuario" runat="server" onkeypress="validar_letras(event);"></asp:TextBox>
-            </div>
+            
             <div>
                 <label>Password:</label>
                 <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
